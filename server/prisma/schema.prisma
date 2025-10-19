@@ -1,0 +1,115 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id        String    @id @default(cuid())
+  email     String    @unique
+  password  String
+  name      String?
+
+  calendars Calendar[]
+  shareLinks ShareLink[]
+  tokens    Token[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+
+model Calendar {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+
+  owner     User      @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId   String
+
+  employees Employee[]
+  shifts    Shift[]
+  shareLinks ShareLink[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("calendars")
+}
+
+model Employee {
+  id      String @id @default(cuid())
+  name    String
+
+  calendar   Calendar @relation(fields: [calendarId], references: [id], onDelete: Cascade)
+  calendarId String
+
+  shifts     Shift[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([calendarId, name])
+  @@map("employees")
+}
+
+model Shift {
+  id     String @id @default(cuid())
+  date   DateTime
+
+  shiftType ShiftType @default(NOT_WORKING)
+  notes     String?
+
+  employee   Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  employeeId String
+
+  calendar   Calendar @relation(fields: [calendarId], references: [id], onDelete: Cascade)
+  calendarId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([calendarId, date])
+  @@index([employeeId, date])
+  @@map("shifts")
+}
+
+model ShareLink {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  isActive  Boolean  @default(true)
+
+  calendar Calendar @relation(fields: [calendarId], references: [id], onDelete: Cascade)
+  calendarId String
+
+  createdBy User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+
+  createdAt DateTime @default(now())
+
+  @@map("share_links")
+}
+
+model Token {
+  id          String   @id @default(cuid())
+  userId      String
+  refreshToken String   @unique
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+
+  @@map("tokens")
+}
+
+enum ShiftType {
+  NOT_WORKING
+  DAY_SHIFT
+  NIGHT_SHIFT
+  HOLIDAY
+  LEAVE
+}
