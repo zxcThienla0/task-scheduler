@@ -18,7 +18,7 @@ app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
 app.use(cors({
     credentials: true,
-    origin: "http://localhost:5173"
+    origin: "https://task-scheduler-frontend-production.up.railway.app"
 }));
 
 app.use('/api/auth', userRouter);
