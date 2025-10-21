@@ -50,16 +50,6 @@ class calendarService {
     }
 
     async updateCalendar(ownerId, calendarId, updateData) {
-        const calendar = await prisma.calendar.findFirst({
-            where: {
-                id: calendarId,
-                ownerId: ownerId
-            }
-        });
-
-        if (!calendar) {
-            throw new Error('Календарь не найден или у вас нет прав для его редактирования');
-        }
         const allowedUpdates = ['name', 'description'];
         const updates = {};
 
@@ -72,9 +62,16 @@ class calendarService {
         if (Object.keys(updates).length === 0) {
             throw new Error('Нет данных для обновления');
         }
-        await calendar.update(updates);
 
-        return calendar;
+        const updatedCalendar = await prisma.calendar.update({
+            where: {
+                id: calendarId,
+                ownerId: ownerId
+            },
+            data: updates
+        });
+
+        return updatedCalendar;
     }
 }
 
