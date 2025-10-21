@@ -6,6 +6,7 @@ const calendarRouter = new Router()
 
 calendarRouter.post('/calendar', authMiddleware, calendarController.createCalendar )
 calendarRouter.delete('/calendar/:id', authMiddleware, calendarController.deleteCalendar )
+calendarRouter.put('/calendar/:id', authMiddleware, calendarController.updateCalendar )
 calendarRouter.get('/calendar', authMiddleware, calendarController.getCalendar )
 
 module.exports = calendarRouter

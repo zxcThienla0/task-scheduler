@@ -48,6 +48,34 @@ class calendarService {
             throw err;
         }
     }
+
+    async updateCalendar(ownerId, calendarId, updateData) {
+        const calendar = await prisma.calendar.findFirst({
+            where: {
+                id: calendarId,
+                ownerId: ownerId
+            }
+        });
+
+        if (!calendar) {
+            throw new Error('Календарь не найден или у вас нет прав для его редактирования');
+        }
+        const allowedUpdates = ['name', 'description'];
+        const updates = {};
+
+        allowedUpdates.forEach(field => {
+            if (updateData[field] !== undefined) {
+                updates[field] = updateData[field];
+            }
+        });
+
+        if (Object.keys(updates).length === 0) {
+            throw new Error('Нет данных для обновления');
+        }
+        await calendar.update(updates);
+
+        return calendar;
+    }
 }
 
 module.exports = new calendarService()

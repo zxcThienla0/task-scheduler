@@ -6,8 +6,7 @@ class employeeService {
     async getEmployees(calendarId) {
         try {
             const employees = await prisma.employee.findMany({
-                where: {calendarId},
-                orderBy: {name: 'asc'}
+                where: {calendarId}
             })
             return employees;
         } catch (err) {

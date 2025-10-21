@@ -32,6 +32,19 @@ class calendarController {
             next(err)
         }
     }
+
+    async updateCalendar(req, res, next) {
+        try {
+            const {id} = req.params;
+            const ownerId = req.user.id;
+            const data = req.body;
+
+            const calendar = await calendarService.updateCalendar(ownerId, id, data);
+            return res.json(calendar);
+        } catch (err) {
+            next(err);
+        }
+    }
 }
 
 module.exports = new calendarController;
