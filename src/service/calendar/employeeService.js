@@ -3,10 +3,13 @@ const prisma = new PrismaClient();
 const ApiError = require('../../exception/api-error');
 
 class employeeService {
-    async getEmployees(calendarId) {
+    async getEmployees(calendarId, sortByAlphabet = false) {
         try {
             const employees = await prisma.employee.findMany({
-                where: {calendarId}
+                where: {calendarId},
+                orderBy: sortByAlphabet
+                    ? {name: 'asc'}
+                    : undefined
             })
             return employees;
         } catch (err) {
