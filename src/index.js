@@ -18,12 +18,8 @@ app.use(cookieParser());
 
 app.use(cors({
     credentials: true,
-    origin: true,
-    preflightContinue: false,
-    optionsSuccessStatus: 204
+    origin: ['http://46.229.213.50', 'http://akella24calendar.ru/', 'http://www.akella24calendar.ru/']
 }));
-
-app.options('*', cors());
 
 app.use('/api/auth', userRouter);
 app.use('/api', calendarRouter);
