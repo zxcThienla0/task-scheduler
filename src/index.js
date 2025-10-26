@@ -18,15 +18,12 @@ app.use(cookieParser());
 
 app.use(cors({
     credentials: true,
-    origin: true
+    origin: true,
+    preflightContinue: false,
+    optionsSuccessStatus: 204
 }));
 
-app.options('*', (req, res) => {
-    res.header('Access-Control-Allow-Origin', req.headers.origin);
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
-    res.sendStatus(200);
-});
+app.options('*', cors());
 
 app.use('/api/auth', userRouter);
 app.use('/api', calendarRouter);
