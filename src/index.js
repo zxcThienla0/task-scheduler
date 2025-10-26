@@ -18,7 +18,7 @@ app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
 app.use(cors({
     credentials: true,
-    origin: ['https://task-scheduler-frontend-production.up.railway.app', 'http://46.229.213.50']
+    origin: ['http://46.229.213.50', 'http://akella24calendar.ru/', 'http://www.akella24calendar.ru/']
 }));
 
 app.use('/api/auth', userRouter);
