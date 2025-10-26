@@ -18,7 +18,17 @@ app.use(cookieParser());
 
 app.use(cors({
     credentials: true,
-    origin: ['http://46.229.213.50', 'http://akella24calendar.ru/', 'http://www.akella24calendar.ru/']
+    origin: [
+        'http://46.229.213.50',
+        'http://akella24calendar.ru',
+        'https://akella24calendar.ru',
+        'http://www.akella24calendar.ru',
+        'https://www.akella24calendar.ru',
+        'http://localhost:3000',
+        'http://localhost:5173'
+    ],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }));
 
 app.use('/api/auth', userRouter);
