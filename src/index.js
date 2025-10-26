@@ -21,7 +21,12 @@ app.use(cors({
     origin: true
 }));
 
-app.options('*', cors());
+app.options('*', (req, res) => {
+    res.header('Access-Control-Allow-Origin', req.headers.origin);
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+    res.sendStatus(200);
+});
 
 app.use('/api/auth', userRouter);
 app.use('/api', calendarRouter);
