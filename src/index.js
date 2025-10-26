@@ -9,17 +9,29 @@ const employeeRouter = require("./routes/employee-router");
 const shiftRouter = require("./routes/shift-router");
 const shareLinkRouter = require("./routes/shareLink-router");
 
-
 const PORT = process.env.PORT || 5050;
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
+
 app.use(cors({
     credentials: true,
-    origin: ['http://46.229.213.50', 'http://akella24calendar.ru/', 'http://www.akella24calendar.ru/']
+    origin: [
+        'http://46.229.213.50',
+        'http://akella24calendar.ru',
+        'https://akella24calendar.ru',
+        'http://www.akella24calendar.ru',
+        'https://www.akella24calendar.ru',
+        'http://localhost:3000',
+        'http://localhost:5173'
+    ],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }));
+
+app.options('*', cors());
 
 app.use('/api/auth', userRouter);
 app.use('/api', calendarRouter);
