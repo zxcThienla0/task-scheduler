@@ -1,22 +1,21 @@
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
-  id        String    @id @default(cuid())
-  email     String    @unique
-  password  String
-  name      String?
+  id       String  @id @default(cuid())
+  email    String  @unique
+  password String
+  name     String?
 
-  calendars Calendar[]
+  calendars  Calendar[]
   shareLinks ShareLink[]
-  tokens    Token[]
+  tokens     Token[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -25,15 +24,15 @@ model User {
 }
 
 model Calendar {
-  id          String   @id @default(cuid())
+  id          String  @id @default(cuid())
   name        String
   description String?
 
-  owner     User      @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  ownerId   String
+  owner   User   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId String
 
-  employees Employee[]
-  shifts    Shift[]
+  employees  Employee[]
+  shifts     Shift[]
   shareLinks ShareLink[]
 
   createdAt DateTime @default(now())
@@ -43,13 +42,13 @@ model Calendar {
 }
 
 model Employee {
-  id      String @id @default(cuid())
-  name    String
+  id   String @id @default(cuid())
+  name String
 
   calendar   Calendar @relation(fields: [calendarId], references: [id], onDelete: Cascade)
   calendarId String
 
-  shifts     Shift[]
+  shifts Shift[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -59,8 +58,8 @@ model Employee {
 }
 
 model Shift {
-  id     String @id @default(cuid())
-  date   DateTime
+  id   String   @id @default(cuid())
+  date DateTime
 
   shiftType ShiftType @default(NOT_WORKING)
   notes     String?
@@ -80,14 +79,14 @@ model Shift {
 }
 
 model ShareLink {
-  id        String   @id @default(cuid())
-  token     String   @unique
-  isActive  Boolean  @default(true)
+  id       String  @id @default(cuid())
+  token    String  @unique
+  isActive Boolean @default(true)
 
-  calendar Calendar @relation(fields: [calendarId], references: [id], onDelete: Cascade)
+  calendar   Calendar @relation(fields: [calendarId], references: [id], onDelete: Cascade)
   calendarId String
 
-  createdBy User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdBy User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
 
   createdAt DateTime @default(now())
@@ -96,11 +95,11 @@ model ShareLink {
 }
 
 model Token {
-  id          String   @id @default(cuid())
-  userId      String
+  id           String   @id @default(cuid())
+  userId       String
   refreshToken String   @unique
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt   DateTime @default(now())
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt    DateTime @default(now())
 
   @@map("tokens")
 }
@@ -111,4 +110,7 @@ enum ShiftType {
   NIGHT_SHIFT
   HOLIDAY
   LEAVE
+  Dentist_Day
+  Surgery_Day
+  Computed_Tomography
 }
