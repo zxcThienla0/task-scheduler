@@ -47,12 +47,25 @@ class shiftController {
 
     async updateShift(req, res, next) {
         try {
+            console.log('🔧 === UPDATE SHIFT API CALL ===');
+            console.log('Method:', req.method);
+            console.log('URL:', req.url);
+            console.log('Params:', req.params);
+            console.log('Body:', req.body);
+            console.log('Headers:', req.headers);
+
             const shiftId = req.params.id;
             const {shiftType, notes} = req.body;
 
+            console.log('📦 Extracted data:', { shiftId, shiftType, notes });
+
             const shift = await shiftService.updateShift(shiftId, shiftType, notes);
+
+            console.log('✅ API Response sent');
             return res.json(shift);
         } catch (err) {
+            console.error('❌ === API ERROR ===');
+            console.error('Error in controller:', err);
             next(err);
         }
     }
