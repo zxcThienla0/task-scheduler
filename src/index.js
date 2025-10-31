@@ -12,6 +12,16 @@ const shareLinkRouter = require("./routes/shareLink-router");
 const PORT = process.env.PORT || 5050;
 const app = express();
 
+process.on('uncaughtException', (error) => {
+    console.error('❌ UNCAUGHT EXCEPTION:', error);
+    process.exit(1);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+    console.error('❌ UNHANDLED REJECTION at:', promise, 'reason:', reason);
+    process.exit(1);
+});
+
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
