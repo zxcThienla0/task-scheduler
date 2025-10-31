@@ -48,7 +48,7 @@ model Employee {
   calendar   Calendar @relation(fields: [calendarId], references: [id], onDelete: Cascade)
   calendarId String
 
-  shifts Shift[]
+  shifts shifts[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -57,7 +57,7 @@ model Employee {
   @@map("employees")
 }
 
-model Shift {
+model shifts {
   id   String   @id @default(cuid())
   date DateTime
 
