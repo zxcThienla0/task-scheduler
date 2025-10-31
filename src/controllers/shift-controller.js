@@ -50,7 +50,13 @@ class shiftController {
             const shiftId = req.params.id;
             const {shiftType, notes} = req.body;
 
-            console.log(shiftType, notes);
+            console.log('=== UPDATE SHIFT REQUEST ===');
+            console.log('Shift ID:', shiftId);
+            console.log('Shift Type:', shiftType);
+            console.log('Notes:', notes);
+            console.log('Headers:', req.headers);
+            console.log('================');
+
 
             const shift = await shiftService.updateShift(shiftId, shiftType, notes);
             return res.json(shift);
