@@ -110,7 +110,4 @@ enum ShiftType {
   NIGHT_SHIFT
   HOLIDAY
   LEAVE
-  Dentist_Day
-  Surgery_Day
-  Computed_Tomography
 }
