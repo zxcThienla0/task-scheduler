@@ -81,19 +81,35 @@ class shiftService {
 
     async updateShift(shiftId, shiftType, notes) {
         try {
+            console.log('🔧 === UPDATE SHIFT DEBUG ===');
+            console.log('Shift ID:', shiftId);
+            console.log('Shift Type:', shiftType, 'Type:', typeof shiftType);
+            console.log('Notes:', notes);
+
+            const validTypes = ['NOT_WORKING', 'DAY_SHIFT', 'NIGHT_SHIFT', 'HOLIDAY', 'LEAVE', 'Dentist_Day', 'Surgery_Day', 'Computed_Tomography'];
+            if (!validTypes.includes(shiftType)) {
+                throw new Error(`Invalid shift type: ${shiftType}. Valid types: ${validTypes.join(', ')}`);
+            }
+
+            console.log('📝 Attempting database update...');
             const shift = await prisma.shift.update({
                 where: { id: shiftId },
                 data: {
-                    shiftType,
-                    notes
+                    shiftType: shiftType,
+                    notes: notes || null
                 },
-                include: {
-                    employee: true
-                }
+                include: { employee: true }
             });
+
+            console.log('✅ Update successful');
             return shift;
         } catch (err) {
-            console.error('Prisma error:', err);
+            console.error('❌ === UPDATE SHIFT ERROR ===');
+            console.error('Error name:', err.name);
+            console.error('Error message:', err.message);
+            console.error('Error code:', err.code);
+            console.error('Error meta:', err.meta);
+            console.error('Full error:', err);
             throw err;
         }
     }
