@@ -93,6 +93,7 @@ class shiftService {
             });
             return shift;
         } catch (err) {
+            console.error('Prisma error:', err);
             throw err;
         }
     }
