@@ -8,4 +8,7 @@ employeeRouter.get('/calendar/:id/employees', authMiddleware, employeeController
 employeeRouter.post('/calendar/:id/employees', authMiddleware, employeeController.createEmployee)
 employeeRouter.delete('/calendar/:calendarId/employees/:id', authMiddleware, employeeController.deleteEmployee);
 
+employeeRouter.get('/calendar/:id/employee-order', authMiddleware, employeeController.getEmployeeOrder)
+employeeRouter.post('/calendar/:id/employee-order', authMiddleware, employeeController.saveEmployeeOrder)
+
 module.exports = employeeRouter

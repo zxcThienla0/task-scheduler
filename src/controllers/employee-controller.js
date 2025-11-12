@@ -24,12 +24,32 @@ class employeeController {
         }
     }
 
-
     async deleteEmployee(req, res, next) {
         try {
             const {calendarId, id} = req.params
             const employees = await employeeService.deleteEmployee(calendarId, id)
             return res.json(employees)
+        } catch (err) {
+            next(err);
+        }
+    }
+
+    async getEmployeeOrder(req, res, next) {
+        try {
+            const calendarId = req.params.id;
+            const employeeOrder = await employeeService.getEmployeeOrder(calendarId);
+            return res.json(employeeOrder);
+        } catch (err) {
+            next(err);
+        }
+    }
+
+    async saveEmployeeOrder(req, res, next) {
+        try {
+            const calendarId = req.params.id;
+            const { employeeIds } = req.body;
+            const employeeOrder = await employeeService.saveEmployeeOrder(calendarId, employeeIds);
+            return res.json(employeeOrder);
         } catch (err) {
             next(err);
         }
