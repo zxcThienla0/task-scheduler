@@ -82,7 +82,7 @@ class shiftService {
     async updateShift(shiftId, shiftType, notes) {
         try {
 
-            const validTypes = ['NOT_WORKING', 'DAY_SHIFT', 'NIGHT_SHIFT', 'HOLIDAY', 'LEAVE', 'DENTIST_DAY', 'SURGERY_DAY', 'COMPUTED_TOMOGRAPHY'];
+            const validTypes = ['NOT_WORKING', 'DAY_SHIFT', 'NIGHT_SHIFT', 'HOLIDAY', 'LEAVE', 'DENTIST_DAY', 'SURGERY_DAY', 'COMPUTED_TOMOGRAPHY', "NN_DAY"];
             if (!validTypes.includes(shiftType)) {
                 throw new Error(`Invalid shift type: ${shiftType}. Valid types: ${validTypes.join(', ')}`);
             }
